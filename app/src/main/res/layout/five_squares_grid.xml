@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.gridlayout.widget.GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="30dp"
+    android:layout_marginStart="10dp"
+    app:alignmentMode="alignMargins"
+    app:columnCount="3"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:rowCount="3"
+    app:useDefaultMargins="true">
+
+    <ImageView
+        android:id="@+id/rect_red"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/rectangle_red"
+        app:layout_column="0"
+        app:layout_row="0" />
+
+    <ImageView
+        android:id="@+id/rect_green"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/rectangle_green"
+        app:layout_column="1"
+        app:layout_row="0" />
+
+    <ImageView
+        android:id="@+id/rect_blue"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/rectangle_blue"
+        app:layout_column="2"
+        app:layout_row="0" />
+
+    <ImageView
+        android:id="@+id/rect_pink"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/rectangle_pink"
+        app:layout_column="0"
+        app:layout_row="1" />
+
+    <ImageView
+        android:id="@+id/rect_white"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/rectangle_white"
+        app:layout_column="1"
+        app:layout_row="1" />
+
+    <ImageView
+        android:id="@+id/rect_black"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/rectangle_black"
+        app:layout_column="2"
+        app:layout_row="1" />
+
+    <Button
+        android:id="@+id/button_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        android:layout_marginTop="300dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_column="2"
+        app:layout_row="2" />
+
+    <Button
+        android:id="@+id/button_prev"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Prev"
+        android:layout_marginTop="300dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_column="0"
+        app:layout_row="2" />
+</androidx.gridlayout.widget.GridLayout>
