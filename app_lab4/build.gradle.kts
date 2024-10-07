@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.lab3"
+    namespace = "com.lab4"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.lab3"
+        applicationId = "com.lab4"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -39,13 +39,12 @@ android {
 }
 
 dependencies {
-    implementation(libs.github.glide)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.databinding.runtime)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

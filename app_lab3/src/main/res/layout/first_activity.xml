@@ -91,13 +91,25 @@
         app:layout_constraintTop_toBottomOf="@+id/chooseDateButton"
         app:layout_constraintVertical_bias="0.0" />
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:src="@drawable/earth"
+        android:layout_width="89dp"
+        android:layout_height="87dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@+id/planets_spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chooseTimeData"
+        app:layout_constraintVertical_bias="0.448" />
+
     <Spinner
         android:id="@+id/planets_spinner"
         android:layout_width="380dp"
         android:layout_height="48dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="116dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.483"
+        app:layout_constraintHorizontal_bias="0.451"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/chooseTimeData" />
 

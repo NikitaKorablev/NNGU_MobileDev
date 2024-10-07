@@ -10,6 +10,7 @@ import android.widget.SeekBar
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.lab3.databinding.FirstActivityBinding
 
 class FirstActivity : AppCompatActivity() {
@@ -53,6 +54,7 @@ class FirstActivity : AppCompatActivity() {
                 binding.switch1.text = "Выключен"
         }
 
+        binding.imageView.setImageResource(R.drawable.white)
 
         val spinner: Spinner = binding.planetsSpinner
         ArrayAdapter.createFromResource(
@@ -66,6 +68,20 @@ class FirstActivity : AppCompatActivity() {
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 val selectedPlanet = parent.getItemAtPosition(position) as String
+                when (selectedPlanet) {
+                    "NOTHING" -> binding.imageView.setImageResource(R.drawable.white)
+                    "Mercury" -> binding.imageView.setImageResource(R.drawable.mercury)
+                    "Venus" -> binding.imageView.setImageResource(R.drawable.venus)
+                    "Earth" -> binding.imageView.setImageResource(R.drawable.earth)
+                    "Mars" -> binding.imageView.setImageResource(R.drawable.mars)
+                    "Jupiter" -> binding.imageView.setImageResource(R.drawable.jupiter)
+                    "Saturn" -> binding.imageView.setImageResource(R.drawable.saturn)
+                    "Uranus" -> binding.imageView.setImageResource(R.drawable.uranus)
+                    "Neptune" -> binding.imageView.setImageResource(R.drawable.neptune)
+                }
+
+
+
                 if (selectedPlanet != "NOTHING") Toast.makeText(parent.context,
                     "Selected planet: $selectedPlanet", Toast.LENGTH_LONG).show()
             }
