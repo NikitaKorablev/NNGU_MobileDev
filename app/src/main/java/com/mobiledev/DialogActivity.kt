@@ -1,5 +1,6 @@
 package com.mobiledev
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -16,6 +17,7 @@ class DialogActivity: AppCompatActivity(), ConfirmationDialogFragment.Confirmati
 
     override lateinit var dialogView: View
 
+    @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dialog_activity)
