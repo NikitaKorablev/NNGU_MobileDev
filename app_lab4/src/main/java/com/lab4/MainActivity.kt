@@ -11,6 +11,7 @@ import com.lab4.task3.MainActivity as ActivityTask3
 import com.lab4.task4.MainActivity as ActivityTask4
 import com.lab4.task5.MainActivity as ActivityTask5
 import com.lab4.task6.MainActivity as ActivityTask6
+import com.lab4.task7.MainActivity as ActivityTask7
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         binding.button4.setOnClickListener(this::onTask4ButtonClicked)
         binding.button5.setOnClickListener(this::onTask5ButtonClicked)
         binding.button6.setOnClickListener(this::onTask6ButtonClicked)
+        binding.button7.setOnClickListener(this::onTask7ButtonClicked)
     }
 
     private fun onTask1ButtonClicked(view: View?) {
@@ -55,6 +57,11 @@ class MainActivity : AppCompatActivity() {
     }
     private fun onTask6ButtonClicked(view: View?) {
         val intent = Intent(baseContext, ActivityTask6::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+        startActivity(intent)
+    }
+    private fun onTask7ButtonClicked(view: View?) {
+        val intent = Intent(baseContext, ActivityTask7::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
         startActivity(intent)
     }
