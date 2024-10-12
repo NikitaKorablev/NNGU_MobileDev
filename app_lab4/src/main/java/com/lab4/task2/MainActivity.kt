@@ -23,10 +23,14 @@ class MainActivity : AppCompatActivity() {
         binding.mainMenuButton.setOnClickListener(this::onMainManuButtonClicked)
     }
 
-    private fun onMainManuButtonClicked(view: View?) {
+    override fun onDestroy() {
+        super.onDestroy()
+
         for (fragment in supportFragmentManager.fragments)
             supportFragmentManager.beginTransaction().remove(fragment).commit()
+    }
 
+    private fun onMainManuButtonClicked(view: View?) {
         finish()
     }
 }

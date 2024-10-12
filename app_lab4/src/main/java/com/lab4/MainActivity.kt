@@ -12,6 +12,8 @@ import com.lab4.task4.MainActivity as ActivityTask4
 import com.lab4.task5.MainActivity as ActivityTask5
 import com.lab4.task6.MainActivity as ActivityTask6
 import com.lab4.task7.MainActivity as ActivityTask7
+import com.lab4.task8.MainActivity as ActivityTask8
+import com.lab4.task9.MainActivity as ActivityTask9
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -28,6 +30,8 @@ class MainActivity : AppCompatActivity() {
         binding.button5.setOnClickListener(this::onTask5ButtonClicked)
         binding.button6.setOnClickListener(this::onTask6ButtonClicked)
         binding.button7.setOnClickListener(this::onTask7ButtonClicked)
+        binding.button8.setOnClickListener(this::onTask8ButtonClicked)
+        binding.button9.setOnClickListener(this::onTask9ButtonClicked)
     }
 
     private fun onTask1ButtonClicked(view: View?) {
@@ -65,4 +69,16 @@ class MainActivity : AppCompatActivity() {
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
         startActivity(intent)
     }
+    private fun onTask8ButtonClicked(view: View?) {
+        val intent = Intent(baseContext, ActivityTask8::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+        startActivity(intent)
+    }
+    private fun onTask9ButtonClicked(view: View?) {
+        val intent = Intent(baseContext, ActivityTask9::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+        startActivity(intent)
+    }
 }
+
+
