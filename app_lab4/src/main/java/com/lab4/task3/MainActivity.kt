@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity(), DialogFr.OnDataSendListener {
         setContentView(binding.root)
 
         binding.showAlertButton.setOnClickListener(this::onShowButtonClicked)
+        binding.mainMenuButton.setOnClickListener(this::onMainMenuButtonClicked)
     }
 
     override fun showData(inputText: String) {
@@ -26,5 +27,9 @@ class MainActivity : AppCompatActivity(), DialogFr.OnDataSendListener {
 
     private fun onShowButtonClicked(view: View?) {
         DialogFr().show(supportFragmentManager, "DialogFr")
+    }
+
+    private fun onMainMenuButtonClicked(view: View?) {
+        finish()
     }
 }

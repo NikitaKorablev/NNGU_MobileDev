@@ -9,19 +9,35 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MobileDev">
         <activity
+            android:name=".task7.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".task6.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".task5.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".task4.MainActivity"
+            android:exported="false" />
+        <activity
             android:name=".task3.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".task2.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".task1.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".task2.MainActivity"
-            android:exported="false"/>
-        <activity
-            android:name=".task1.MainActivity"
-            android:exported="false"/>
     </application>
 
 </manifest>

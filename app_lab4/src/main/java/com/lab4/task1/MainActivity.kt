@@ -17,10 +17,18 @@ class MainActivity : AppCompatActivity() {
         val arguments = intent.extras
         if (arguments != null && arguments.containsKey("depth")) {
             binding.stackDepth.text = arguments.getInt("depth").toString()
-        } else binding.stackDepth.text = "0"
+            binding.mainMenuButton.visibility = View.GONE
+        } else {
+            binding.stackDepth.text = "0"
+            binding.mainMenuButton.setOnClickListener(this::onMainMenuButtonClicked)
+        }
 
         binding.prevButton.setOnClickListener(this::prevButtonOnClick)
         binding.nextButton.setOnClickListener(this::nextButtonOnClick)
+    }
+
+    private fun onMainMenuButtonClicked(view: View?) {
+        finish()
     }
 
     private fun prevButtonOnClick(view: View?) {
