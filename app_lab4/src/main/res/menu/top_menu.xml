@@ -2,12 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/action_item1"
-        android:title="Элемент 1"
-        android:orderInCategory="100"
-        android:showAsAction="never"/>
+        android:title="Элемент 1"/>
     <item
         android:id="@+id/action_item2"
-        android:title="Элемент 2"
-        android:orderInCategory="200"
-        android:showAsAction="never"/>
+        android:title="Элемент 2"/>
 </menu>
