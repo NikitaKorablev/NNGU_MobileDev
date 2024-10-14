@@ -23,3 +23,4 @@ rootProject.name = "Mobile Dev"
 include(":app")
 include(":app_lab3")
 include(":app_lab4")
+include(":app_lab5")
