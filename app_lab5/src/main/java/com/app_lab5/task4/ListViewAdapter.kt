@@ -1,4 +1,4 @@
-package com.app_lab5.task1
+package com.app_lab5.task4
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -26,13 +26,12 @@ class ListViewAdapter(private val items: List<Item>, private val context: Contex
         val item = getItem(position)
 
         // Inflate the layout for each item
-        val view = convertView ?: LayoutInflater.from(context).inflate(R.layout.list_view_item, parent, false)
+        val view = convertView ?: LayoutInflater.from(context)
+            .inflate(R.layout.list_view_item_task4, parent, false)
 
         // Get the TextView from the layout and set its properties
-        val textView = view.findViewById<TextView>(R.id.itemText)
-        textView.text = item.text
-        textView.setTextColor(item.textColor)
-        view.setBackgroundColor(item.bgColor)
+        view.findViewById<TextView>(R.id.name).text = item.name
+        view.findViewById<TextView>(R.id.value).text = item.value
 
         return view
     }

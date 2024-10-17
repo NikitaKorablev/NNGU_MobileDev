@@ -3,12 +3,13 @@ package com.app_lab5
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.app_lab5.databinding.ActivityMainBinding
 import com.app_lab5.task1.MainActivity as Task1
+import com.app_lab5.task2.MainActivity as Task2
+import com.app_lab5.task4.MainActivity as Task4
+import com.app_lab5.task6.MainActivity as Task6
+import com.app_lab5.task7.MainActivity as Task7
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -19,10 +20,38 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.button1.setOnClickListener(this::onTask1ButtonClicked)
+        binding.button2.setOnClickListener(this::onTask2ButtonClicked)
+        binding.button4.setOnClickListener(this::onTask4ButtonClicked)
+        binding.button6.setOnClickListener(this::onTask6ButtonClicked)
+        binding.button7.setOnClickListener(this::onTask7ButtonClicked)
     }
 
     private fun onTask1ButtonClicked(view: View?) {
         val intent = Intent(baseContext, Task1::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+        startActivity(intent)
+    }
+
+    private fun onTask2ButtonClicked(view: View?) {
+        val intent = Intent(baseContext, Task2::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+        startActivity(intent)
+    }
+
+    private fun onTask4ButtonClicked(view: View?) {
+        val intent = Intent(baseContext, Task4::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+        startActivity(intent)
+    }
+
+    private fun onTask6ButtonClicked(view: View?) {
+        val intent = Intent(baseContext, Task6::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+        startActivity(intent)
+    }
+
+    private fun onTask7ButtonClicked(view: View?) {
+        val intent = Intent(baseContext, Task7::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
         startActivity(intent)
     }
