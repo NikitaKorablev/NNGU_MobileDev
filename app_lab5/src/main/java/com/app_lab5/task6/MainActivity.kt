@@ -41,11 +41,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onAddNoteButtonClicked(view: View?) {
-        val text = binding.noteInput.text.toString()
-        if (text.isNotEmpty()) {
-            val note = Note(text = text)
+        val contact = binding.contact.text.toString()
+        val email = binding.email.text.toString()
+        if (contact.isNotEmpty() && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            val note = Note(text = contact, email = email)
             noteViewModel.insert(note)
-            binding.noteInput.text.clear()
+            binding.contact.text.clear()
+            binding.email.text.clear()
         }
     }
 

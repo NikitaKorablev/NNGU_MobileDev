@@ -8,5 +8,7 @@ data class Note(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
 
-    val text: String
+    val text: String,
+
+    val email: String
 )

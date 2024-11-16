@@ -33,6 +33,7 @@ class ListViewAdapter(var items: List<Note>, private val context: Context, priva
 
         // Get the TextView from the layout and set its properties
         view.findViewById<TextView>(R.id.note).text = item.text
+        view.findViewById<TextView>(R.id.note2).text = item.email
         view.findViewById<ConstraintLayout>(R.id.layout).setOnClickListener { onClick(item) }
 
         return view
