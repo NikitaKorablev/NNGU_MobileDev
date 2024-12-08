@@ -33,6 +33,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+    private val audioQueue = mutableListOf<Uri>()
+    private var currentTrackIndex = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,37 +46,86 @@ class MainActivity : AppCompatActivity() {
         binding.filePicker.setOnClickListener(this::openFilePicker)
         binding.playPause.setOnClickListener {
             mediaPlayer?.let {
-                if (!playerIsStarted) {
+                if (it.isPlaying) {
+                    it.pause()
+                    binding.playPause.text = "Play"
+                } else {
                     it.start()
                     binding.seekBar.max = it.duration
                     handler.post(updateSeekBarRunnable)
                     binding.playPause.text = "Pause"
-                } else {
-                    it.pause()
-                    binding.playPause.text = "Play"
                 }
-
-                playerIsStarted = !playerIsStarted
+                playerIsStarted = it.isPlaying
             }
         }
+        binding.prev.setOnClickListener{playPrevTrack()}
+        binding.next.setOnClickListener{playNextTrack()}
 
         binding.mainMenuButton.setOnClickListener(this::onMainMenuButtonClicked)
     }
 
     private fun openFilePicker(view: View?) {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI)
+//        val intent = Intent(Intent.ACTION_PICK, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI)
+//        startActivityForResult(intent, PICK_AUDIO_REQUEST)
+
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+        intent.addCategory(Intent.CATEGORY_OPENABLE)
+        intent.type = "audio/*"
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
         startActivityForResult(intent, PICK_AUDIO_REQUEST)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_AUDIO_REQUEST && resultCode == RESULT_OK && data != null) {
-            val selectedAudioUri: Uri? = data.data
-            if (selectedAudioUri != null) {
-                mediaPlayer = MediaPlayer.create(this, selectedAudioUri)
-                binding.seekBar.max = mediaPlayer?.duration ?: 0
-                binding.songName.text = getSongName(selectedAudioUri)
+            if (data.clipData != null) {
+                for (i in 0 until data.clipData!!.itemCount) {
+                    val selectedAudioUri: Uri = data.clipData!!.getItemAt(i).uri
+                    audioQueue.add(selectedAudioUri)
+                }
+            } else if (data.data != null) {
+                val selectedAudioUri: Uri = data.data!!
+                audioQueue.add(selectedAudioUri)
             }
+
+            if (audioQueue.isNotEmpty()) {
+                binding.songName.text = getSongName(audioQueue[0])
+                playTrack(audioQueue[0])
+            }
+        }
+    }
+
+    private fun playTrack(uri: Uri) {
+        mediaPlayer?.release()
+        mediaPlayer = MediaPlayer().apply {
+            setDataSource(this@MainActivity, uri)
+            prepare()
+            setOnCompletionListener {
+                playNextTrack()
+            }
+        }
+        binding.seekBar.max = mediaPlayer?.duration ?: 0
+    }
+
+    private fun playPrevTrack() {
+        if (currentTrackIndex-1 > 0) {
+            currentTrackIndex--
+            mediaPlayer?.pause()
+            playerIsStarted = false
+            binding.playPause.text = "Play"
+            playTrack(audioQueue[currentTrackIndex])
+            binding.songName.text = getSongName(audioQueue[currentTrackIndex])
+        }
+    }
+
+    private fun playNextTrack() {
+        if (currentTrackIndex < audioQueue.size - 1) {
+            currentTrackIndex++
+            mediaPlayer?.pause()
+            playerIsStarted = false
+            binding.playPause.text = "Play"
+            playTrack(audioQueue[currentTrackIndex])
+            binding.songName.text = getSongName(audioQueue[currentTrackIndex])
         }
     }
 
