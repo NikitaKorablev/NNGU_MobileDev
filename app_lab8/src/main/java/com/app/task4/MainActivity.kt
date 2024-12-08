@@ -1,7 +1,6 @@
 package com.app.task4
 
 import android.Manifest
-import android.content.ContentResolver
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.MediaPlayer
@@ -16,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.app.databinding.ActivityMainTask4Binding
-
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainTask4Binding
@@ -43,10 +41,7 @@ class MainActivity : AppCompatActivity() {
 
         checkPermissions()
 
-        binding.filePicker.setOnClickListener {
-            openFilePicker()
-        }
-
+        binding.filePicker.setOnClickListener(this::openFilePicker)
         binding.playPause.setOnClickListener {
             mediaPlayer?.let {
                 if (!playerIsStarted) {
@@ -66,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         binding.mainMenuButton.setOnClickListener(this::onMainMenuButtonClicked)
     }
 
-    private fun openFilePicker() {
+    private fun openFilePicker(view: View?) {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, PICK_AUDIO_REQUEST)
     }
