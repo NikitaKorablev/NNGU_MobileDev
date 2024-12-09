@@ -8,16 +8,21 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import android.widget.Button
+import android.widget.ListView
+import android.widget.SeekBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.app.databinding.ActivityMainTask4Binding
+import com.app.R
+
+
+//import com.app.databinding.ActivityMainTask4Binding
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainTask4Binding
     private var mediaPlayer: MediaPlayer? = null
     private val handler = Handler(Looper.getMainLooper())
     private var playerIsStarted = false
@@ -27,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         override fun run() {
             mediaPlayer?.let {
                 if (it.isPlaying) {
-                    binding.seekBar.progress = it.currentPosition
+                    seekBar.progress = it.currentPosition
                     handler.postDelayed(this, 1000)
                 }
             }
@@ -36,32 +41,52 @@ class MainActivity : AppCompatActivity() {
     private val audioQueue = mutableListOf<Uri>()
     private var currentTrackIndex = 0
 
+    private lateinit var playPause: Button
+    private lateinit var seekBar: SeekBar
+    private lateinit var songName: TextView
+    private lateinit var filePicker: Button
+    private lateinit var prev: Button
+    private lateinit var next: Button
+    private lateinit var mainMenuButton: Button
+    private lateinit var listView: ListView
+    private lateinit var songAdapter: SongAdapter
+    private val songList = ArrayList<Song>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainTask4Binding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_main_task4)
+        playPause = findViewById(R.id.playPause)
+        seekBar = findViewById(R.id.seekBar)
+        songName = findViewById(R.id.songName)
+        filePicker = findViewById(R.id.filePicker)
+        prev = findViewById(R.id.prev)
+        next = findViewById(R.id.next)
+        mainMenuButton = findViewById(R.id.mainMenuButton)
+        listView = findViewById(R.id.listView)
+        songAdapter = SongAdapter(this, songList)
+        listView.adapter = songAdapter
 
         checkPermissions()
 
-        binding.filePicker.setOnClickListener(this::openFilePicker)
-        binding.playPause.setOnClickListener {
+        filePicker.setOnClickListener(this::openFilePicker)
+        playPause.setOnClickListener {
             mediaPlayer?.let {
                 if (it.isPlaying) {
                     it.pause()
-                    binding.playPause.text = "Play"
+                    playPause.text = "Play"
                 } else {
                     it.start()
-                    binding.seekBar.max = it.duration
+                    seekBar.max = it.duration
                     handler.post(updateSeekBarRunnable)
-                    binding.playPause.text = "Pause"
+                    playPause.text = "Pause"
                 }
                 playerIsStarted = it.isPlaying
             }
         }
-        binding.prev.setOnClickListener{playPrevTrack()}
-        binding.next.setOnClickListener{playNextTrack()}
+        prev.setOnClickListener{playPrevTrack()}
+        next.setOnClickListener{playNextTrack()}
 
-        binding.mainMenuButton.setOnClickListener(this::onMainMenuButtonClicked)
+        mainMenuButton.setOnClickListener(this::onMainMenuButtonClicked)
     }
 
     private fun openFilePicker(view: View?) {
@@ -82,15 +107,19 @@ class MainActivity : AppCompatActivity() {
                 for (i in 0 until data.clipData!!.itemCount) {
                     val selectedAudioUri: Uri = data.clipData!!.getItemAt(i).uri
                     audioQueue.add(selectedAudioUri)
+                    songList.add(Song(getSongName(selectedAudioUri), false))
                 }
             } else if (data.data != null) {
                 val selectedAudioUri: Uri = data.data!!
                 audioQueue.add(selectedAudioUri)
+                songList.add(Song(getSongName(selectedAudioUri), false))
             }
 
             if (audioQueue.isNotEmpty()) {
-                binding.songName.text = getSongName(audioQueue[0])
+                songName.text = getSongName(audioQueue[0])
                 playTrack(audioQueue[0])
+                songAdapter.setCurrentPlayingPosition(0)
+                songAdapter.notifyDataSetChanged()
             }
         }
     }
@@ -104,17 +133,18 @@ class MainActivity : AppCompatActivity() {
                 playNextTrack()
             }
         }
-        binding.seekBar.max = mediaPlayer?.duration ?: 0
+        seekBar.max = mediaPlayer?.duration ?: 0
     }
 
     private fun playPrevTrack() {
-        if (currentTrackIndex-1 > 0) {
+        if (currentTrackIndex-1 >= 0) {
             currentTrackIndex--
             mediaPlayer?.pause()
             playerIsStarted = false
-            binding.playPause.text = "Play"
+            playPause.text = "Play"
             playTrack(audioQueue[currentTrackIndex])
-            binding.songName.text = getSongName(audioQueue[currentTrackIndex])
+            songAdapter.setCurrentPlayingPosition(currentTrackIndex)
+            songName.text = getSongName(audioQueue[currentTrackIndex])
         }
     }
 
@@ -123,9 +153,10 @@ class MainActivity : AppCompatActivity() {
             currentTrackIndex++
             mediaPlayer?.pause()
             playerIsStarted = false
-            binding.playPause.text = "Play"
+            playPause.text = "Play"
             playTrack(audioQueue[currentTrackIndex])
-            binding.songName.text = getSongName(audioQueue[currentTrackIndex])
+            songAdapter.setCurrentPlayingPosition(currentTrackIndex)
+            songName.text = getSongName(audioQueue[currentTrackIndex])
         }
     }
 
@@ -173,7 +204,7 @@ class MainActivity : AppCompatActivity() {
         mediaPlayer?.let {
             if (it.isPlaying) it.stop()
             it.prepareAsync()
-            binding.seekBar.progress = 0
+            seekBar.progress = 0
             handler.removeCallbacks(updateSeekBarRunnable)
         }
     }
