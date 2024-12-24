@@ -115,31 +115,6 @@ class MainActivity : AppCompatActivity() {
         return squareRect.contains(circleRect)
     }
 
-
-//    private fun checkCollisionWithSquare(circle: View): Boolean {
-//        val square = binding.graySquare
-//        val hor: Boolean = circle.left > square.left && circle.right < square.right
-//        val ver: Boolean = circle.top > square.top && circle.bottom < square.bottom
-//
-//        return hor && ver
-//
-////        val circleRect = Rect(
-////            circle.left,
-////            circle.top,
-////            circle.right,
-////            circle.bottom
-////        )
-////        val squareRect = Rect(
-////            binding.graySquare.left,
-////            binding.graySquare.top,
-////            binding.graySquare.right,
-////            binding.graySquare.bottom
-////        )
-////
-////        val intersect = Rect.intersects(circleRect, squareRect)
-////        return intersect
-//    }
-
     private fun checkYPosition(): Boolean {
         return binding.circleRed.y < binding.circleYellow.y && binding.circleYellow.y < binding.circleGreen.y
     }
