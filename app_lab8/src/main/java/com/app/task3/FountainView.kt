@@ -6,31 +6,39 @@ import android.content.res.Configuration
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import java.util.Random
-import kotlin.math.max
+import kotlin.math.*
 
 class FountainView(context: Context?, attrs: AttributeSet?) :
-    View(context, attrs) {
+    View(context, attrs), SensorEventListener {
     private var paint: Paint = Paint()
     private var particles: MutableList<Particle> = ArrayList()
     private var random: Random = Random()
     private var generation = false
 
-    private companion object {
-        var startX: Float = 0F
-        var startY: Float = 0F
-    }
-
     private var limitX: Float = 0F
     private var limitY: Float = 0F
 
-    val randomParam: () -> Float = {
+    private val sensorManager: SensorManager = context?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+    private var sensor: Sensor? = null
+    private var deviation = 0f
+
+    companion object {
+        var startX = 0f
+        var startY = 0f
+    }
+
+    val randomAngle: () -> Float = {
         var randomFloat: Float
         do {
-            randomFloat = random.nextFloat() * 2 - 1
+            randomFloat = (random.nextFloat() * PI/3 + PI/3).toFloat()
         } while (randomFloat == 0f)
         randomFloat
     }
@@ -100,28 +108,81 @@ class FountainView(context: Context?, attrs: AttributeSet?) :
         }
     }
 
-    private inner class Particle(var x: Float, var y: Float) {
+    private inner class Particle(val x0: Float, val y0: Float) {
         val color: Int = setParticleColor()
         val size: Float = 10F
         var alpha: Float = 255F
         val alphaStep: Float = 3F
-        val stX = startX
-        val stY = startY
-        val c: Float = randomParam()
-
-        val dx: Float = limitX / 50
+        var x: Float = x0
+        var y: Float = y0
+        val speed = 100F
+        val angle: Float = randomAngle()
+        var time = 0F
 
         fun update() {
-            x = if (c < 0) x+dx else x-dx
-
-            val den = c * limitX
-            val xx0 = x-stX
-            y = limitY*xx0*xx0/(den*den) + 2*limitY*xx0/den + stY
+            x = x0 + speed*cos(angle+deviation)*time
+            y = y0 - (speed*sin(angle+deviation)*time - 9.8*time*time/2).toFloat()
+            time += .4f
 
             alpha -= alphaStep
             paint.alpha = alpha.toInt()
 
             if (alpha < 0F) alpha = 0F
         }
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+
+        val sensorType = Sensor.TYPE_ROTATION_VECTOR
+        val sensor = if (sensorManager.getDefaultSensor(sensorType) != null) {
+            sensorManager.getDefaultSensor(sensorType)
+        } else null
+
+        if (sensor != null) {
+            sensorManager.registerListener(this,
+                sensor,
+                SensorManager.SENSOR_DELAY_UI)
+        }
+    }
+
+    private fun quaternionToEulerAngles(q: Quaternion): Triple<Double, Double, Double> {
+        val roll = atan2(2 * (q.w * q.x + q.y * q.z), 1 - 2 * (q.x * q.x + q.y * q.y))
+        val pitch = asin(2 * (q.w * q.y - q.z * q.x))
+        val yaw = atan2(2 * (q.w * q.z + q.x * q.y), 1 - 2 * (q.y * q.y + q.z * q.z))
+
+        val rollDeg = radiansToDegrees(roll)
+        val pitchDeg = radiansToDegrees(pitch)
+        val yawDeg = radiansToDegrees(yaw)
+
+        return Triple(rollDeg, pitchDeg, yawDeg)
+    }
+
+    private fun radiansToDegrees(radians: Double): Double {
+        return radians * 180.0 / PI
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun onSensorChanged(event: SensorEvent?) {
+        if (event != null) {
+            val x_sin = event.values[0].toDouble()
+            val y_sin = event.values[1].toDouble()
+            val z_sin = event.values[2].toDouble()
+            val cos = event.values[3].toDouble()
+
+            val q = Quaternion(x_sin, y_sin, z_sin, cos)
+            val (rollDeg, pitchDeg, yawDeg) = quaternionToEulerAngles(q)
+
+            deviation = (-pitchDeg*PI/180).toFloat()
+        }
+    }
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+        return
+    }
+
+    // This is onPause function of our app
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        sensorManager.unregisterListener(this)
     }
 }
