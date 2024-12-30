@@ -10,6 +10,7 @@ import com.app.task2.MainActivity as Task2
 import com.app.task3.MainActivity as Task3
 import com.app.task4.MainActivity as Task4
 import com.app.task5.MainActivity as Task5
+import com.app.task6.MainActivity as Task6
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         binding.button3.setOnClickListener(this::onTask3ButtonClicked)
         binding.button4.setOnClickListener(this::onTask4ButtonClicked)
         binding.button5.setOnClickListener(this::onTask5ButtonClicked)
+        binding.button6.setOnClickListener(this::onTask6ButtonClicked)
     }
 
     private fun onTask1ButtonClicked(view: View?) {
@@ -44,6 +46,10 @@ class MainActivity : AppCompatActivity() {
     }
     private fun onTask5ButtonClicked(view: View?) {
         val intent = Intent(baseContext, Task5::class.java)
+        startActivity(intent)
+    }
+    private fun onTask6ButtonClicked(view: View?) {
+        val intent = Intent(baseContext, Task6::class.java)
         startActivity(intent)
     }
 }

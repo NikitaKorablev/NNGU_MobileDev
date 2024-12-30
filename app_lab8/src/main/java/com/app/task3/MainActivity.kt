@@ -74,6 +74,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             binding.zyValue.text = round(yawDeg).toString()
         }
     }
+
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
         return
     }

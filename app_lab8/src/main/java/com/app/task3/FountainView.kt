@@ -13,6 +13,7 @@ import android.hardware.SensorManager
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.widget.FrameLayout
 import java.util.Random
 import kotlin.math.*
 
@@ -26,9 +27,12 @@ class FountainView(context: Context?, attrs: AttributeSet?) :
     private var limitX: Float = 0F
     private var limitY: Float = 0F
 
+    private var width: Float = 0f
+    private var height: Float = 0f
+
     private val sensorManager: SensorManager = context?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-    private var sensor: Sensor? = null
-    private var deviation = 0f
+    private var deviationXZ = 0f
+    private var deviationXY = 0f
 
     companion object {
         var startX = 0f
@@ -45,7 +49,9 @@ class FountainView(context: Context?, attrs: AttributeSet?) :
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        limitY = h.toFloat() / 4
+        width = w.toFloat()
+        height = h.toFloat()
+        limitY = height / 4
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -58,7 +64,10 @@ class FountainView(context: Context?, attrs: AttributeSet?) :
             particle.update()
             paint.color = particle.color
             canvas.drawCircle(particle.x, particle.y, particle.size, paint)
-            if (particle.alpha <= 0) {
+//            if (particle.alpha <= 0) {
+//                iterator.remove() // Удаление частиц, которые исчезли
+//            }
+            if (particle.x < 0 || particle.x > width || particle.y < 0 || particle.y > height) {
                 iterator.remove() // Удаление частиц, которые исчезли
             }
         }
@@ -120,8 +129,8 @@ class FountainView(context: Context?, attrs: AttributeSet?) :
         var time = 0F
 
         fun update() {
-            x = x0 + speed*cos(angle+deviation)*time
-            y = y0 - (speed*sin(angle+deviation)*time - 9.8*time*time/2).toFloat()
+            x = x0 + speed*cos(angle+deviationXZ)*time
+            y = y0 - (speed*sin(angle+deviationXZ)*time - 9.8*deviationXY*time*time/2).toFloat()
             time += .4f
 
             alpha -= alphaStep
@@ -162,6 +171,10 @@ class FountainView(context: Context?, attrs: AttributeSet?) :
         return radians * 180.0 / PI
     }
 
+    private fun devToPer(dev: Float): Double {
+        return (dev/90).toDouble()
+    }
+
     @SuppressLint("SetTextI18n")
     override fun onSensorChanged(event: SensorEvent?) {
         if (event != null) {
@@ -173,9 +186,12 @@ class FountainView(context: Context?, attrs: AttributeSet?) :
             val q = Quaternion(x_sin, y_sin, z_sin, cos)
             val (rollDeg, pitchDeg, yawDeg) = quaternionToEulerAngles(q)
 
-            deviation = (-pitchDeg*PI/180).toFloat()
+            deviationXZ = (-pitchDeg*PI/180).toFloat()
+            deviationXY = devToPer(rollDeg.toFloat()).toFloat()
         }
     }
+
+
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
         return
     }

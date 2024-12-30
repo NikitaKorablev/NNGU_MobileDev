@@ -1,4 +1,9 @@
 package com.app.task6
 
-class App {
+import android.app.Application
+
+class App: Application() {
+    val deviseService: DeviceService by lazy {
+        DeviceService()
+    }
 }

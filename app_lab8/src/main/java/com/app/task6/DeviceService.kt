@@ -1,16 +1,21 @@
 package com.app.task6
 
-import com.github.javafaker.Faker
+class DeviceService {
+    private var deviсes = mutableListOf<Device>()
 
-class DeviseService {
-    private var devises = mutableListOf<Devise>()
-
-
-    fun getDevises(): List<Devise> {
-        return devises.toList()
+    fun getDevices(): List<Device> {
+        return deviсes.toList()
     }
 
-    fun scanDevice(adapter: DeviseAdapter) {
+    fun deviceExists(address: String): Boolean {
+        return deviсes.any { it.address == address }
+    }
 
+    fun addDevice(device: Device) {
+        deviсes.add(device)
+    }
+
+    fun clear() {
+        deviсes.clear()
     }
 }

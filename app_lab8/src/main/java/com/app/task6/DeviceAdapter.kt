@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.app.databinding.BluetoothDeviseBinding
 
-class DeviseAdapter : RecyclerView.Adapter<DeviseAdapter.DeviceViewHolder>() {
-    var data: List<Devise> = emptyList()
+class DeviceAdapter : RecyclerView.Adapter<DeviceAdapter.DeviceViewHolder>() {
+    var data: List<Device> = emptyList()
         @SuppressLint("NotifyDataSetChanged")
         set(newValue) {
             field = newValue

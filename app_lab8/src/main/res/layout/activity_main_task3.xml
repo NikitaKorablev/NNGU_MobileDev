@@ -19,7 +19,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/xy"
+        android:id="@+id/xz"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -31,7 +31,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/xyValue"
+        android:id="@+id/xzValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -39,11 +39,11 @@
         android:textSize="25dp"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
-        app:layout_constraintStart_toEndOf="@+id/xy"
+        app:layout_constraintStart_toEndOf="@+id/xz"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/xz"
+        android:id="@+id/zy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -52,10 +52,10 @@
         android:textSize="25dp"
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/xy" />
+        app:layout_constraintTop_toBottomOf="@+id/xz" />
 
     <TextView
-        android:id="@+id/xzValue"
+        android:id="@+id/zyValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -63,10 +63,10 @@
         android:textSize="25dp"
         android:layout_margin="20dp"
         app:layout_constraintStart_toEndOf="@+id/xz"
-        app:layout_constraintTop_toBottomOf="@+id/xyValue" />
+        app:layout_constraintTop_toBottomOf="@+id/xzValue" />
 
     <TextView
-        android:id="@+id/zy"
+        android:id="@+id/xy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -75,10 +75,10 @@
         android:textSize="25dp"
         android:layout_margin="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/xz" />
+        app:layout_constraintTop_toBottomOf="@+id/zy" />
 
     <TextView
-        android:id="@+id/zyValue"
+        android:id="@+id/xyValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
@@ -86,7 +86,7 @@
         android:text="0"
         android:textSize="25dp"
         app:layout_constraintStart_toEndOf="@+id/zy"
-        app:layout_constraintTop_toBottomOf="@+id/xzValue" />
+        app:layout_constraintTop_toBottomOf="@+id/zyValue" />
 
     <Button
         android:id="@+id/mainMenuButton"
