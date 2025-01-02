@@ -81,7 +81,7 @@ class FountainView(context: Context?, attrs: AttributeSet?) :
 
     private fun generateParticles(x: Float, y: Float) {
         for (i in 0 until 10) {
-            particles.add(0, Particle(x, y))
+            particles.add(0, Particle(x, y, deviationXZ, deviationXY))
         }
     }
 
@@ -117,20 +117,20 @@ class FountainView(context: Context?, attrs: AttributeSet?) :
         }
     }
 
-    private inner class Particle(val x0: Float, val y0: Float) {
+    private inner class Particle(val x0: Float, val y0: Float, val devXZ: Float, val devXY: Float) {
         val color: Int = setParticleColor()
         val size: Float = 10F
         var alpha: Float = 255F
         val alphaStep: Float = 3F
         var x: Float = x0
         var y: Float = y0
-        val speed = 100F
+        val speed = 120F
         val angle: Float = randomAngle()
         var time = 0F
 
         fun update() {
-            x = x0 + speed*cos(angle+deviationXZ)*time
-            y = y0 - (speed*sin(angle+deviationXZ)*time - 9.8*deviationXY*time*time/2).toFloat()
+            x = x0 + speed*cos(angle+devXZ)*time
+            y = y0 - (speed*sin(angle+devXZ)*time - 9.8*devXY*time*time/2).toFloat()
             time += .4f
 
             alpha -= alphaStep
@@ -172,7 +172,11 @@ class FountainView(context: Context?, attrs: AttributeSet?) :
     }
 
     private fun devToPer(dev: Float): Double {
-        return (dev/90).toDouble()
+        val d = if (dev > 90) 180 - dev else
+            if (dev < -90) -180 - dev else dev
+
+
+        return (d/90).toDouble()
     }
 
     @SuppressLint("SetTextI18n")
